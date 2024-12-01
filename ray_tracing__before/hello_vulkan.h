@@ -25,6 +25,7 @@
 #include "nvvk/memallocator_dma_vk.hpp"
 #include "nvvk/resourceallocator_vk.hpp"
 #include "shaders/host_device.h"
+#include "nvvk/raytraceKHR_vk.hpp"
 
 //--------------------------------------------------------------------------------------------------
 // Simple rasterizer of OBJ objects
@@ -48,6 +49,7 @@ public:
   void onResize(int /*w*/, int /*h*/) override;
   void destroyResources();
   void rasterize(const VkCommandBuffer& cmdBuff);
+  void initRayTracing();
 
   // The OBJ model
   struct ObjModel
@@ -89,6 +91,7 @@ public:
   VkDescriptorPool            m_descPool;
   VkDescriptorSetLayout       m_descSetLayout;
   VkDescriptorSet             m_descSet;
+  VkPhysicalDeviceRayTracingPipelinePropertiesKHR m_rtProperties{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PIPELINE_PROPERTIES_KHR};
 
   nvvk::Buffer m_bGlobals;  // Device-Host of the camera matrices
   nvvk::Buffer m_bObjDesc;  // Device buffer of the OBJ descriptions
@@ -99,6 +102,9 @@ public:
   nvvk::ResourceAllocatorDma m_alloc;  // Allocator for buffer, images, acceleration structures
   nvvk::DebugUtil            m_debug;  // Utility to name objects
 
+  auto objectToVkGeometryKHR(const ObjModel& model);
+  void createBottomLevelAS();
+  void createTopLevelAS();
 
   // #Post - Draw the rendered image on a quad using a tonemapper
   void createOffscreenRender();
@@ -119,4 +125,6 @@ public:
   nvvk::Texture               m_offscreenDepth;
   VkFormat                    m_offscreenColorFormat{VK_FORMAT_R32G32B32A32_SFLOAT};
   VkFormat                    m_offscreenDepthFormat{VK_FORMAT_X8_D24_UNORM_PACK32};
+
+  nvvk::RaytracingBuilderKHR m_rtBuilder;
 };
