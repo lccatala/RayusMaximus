@@ -101,6 +101,13 @@ public:
   VkDescriptorSetLayout       m_rtDescSetLayout;
   VkDescriptorSet             m_rtDescSet;
 
+  void createRtPipeline();
+  std::vector<VkRayTracingShaderGroupCreateInfoKHR> m_rtShaderGroups;
+  VkPipelineLayout                                  m_rtPipelineLayout;
+  VkPipeline                                        m_rtPipeline;
+
+  PushConstantRay m_pcRay{};
+
   nvvk::Buffer m_bGlobals;  // Device-Host of the camera matrices
   nvvk::Buffer m_bObjDesc;  // Device buffer of the OBJ descriptions
 
