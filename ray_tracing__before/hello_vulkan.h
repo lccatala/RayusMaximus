@@ -93,6 +93,14 @@ public:
   VkDescriptorSet             m_descSet;
   VkPhysicalDeviceRayTracingPipelinePropertiesKHR m_rtProperties{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PIPELINE_PROPERTIES_KHR};
 
+  void createRtDescriptorSet();
+  void updateRtDescriptorSet();
+
+  nvvk::DescriptorSetBindings m_rtDescSetLayoutBind;
+  VkDescriptorPool            m_rtDescPool;
+  VkDescriptorSetLayout       m_rtDescSetLayout;
+  VkDescriptorSet             m_rtDescSet;
+
   nvvk::Buffer m_bGlobals;  // Device-Host of the camera matrices
   nvvk::Buffer m_bObjDesc;  // Device buffer of the OBJ descriptions
 
