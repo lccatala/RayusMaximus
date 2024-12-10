@@ -115,6 +115,7 @@ public:
   VkStridedDeviceAddressRegionKHR m_hitRegion{};
   VkStridedDeviceAddressRegionKHR m_callRegion{};
 
+  void raytrace(const VkCommandBuffer& cmdBuf, const glm::vec4& clearColor);
 
   nvvk::Buffer m_bGlobals;  // Device-Host of the camera matrices
   nvvk::Buffer m_bObjDesc;  // Device buffer of the OBJ descriptions
